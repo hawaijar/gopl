@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"os"
 	"strings"
@@ -29,8 +30,28 @@ func Exercise13() {
 
 }
 
+// Echoing line of texts
+func echoLine() {
+	scanner := bufio.NewScanner(os.Stdin)
+	counts := make(map[string]int)
+
+	for scanner.Scan() {
+		line := scanner.Text()
+		if line == "bye" {
+			break
+		}
+
+		counts[line] += 1
+	}
+	for line, count := range counts {
+		fmt.Printf("%s: %d\n", line, count)
+	}
+}
+
 func main() {
-	Exercise11()
-	fmt.Println(" ==========================")
-	Exercise12()
+	//Exercise11()
+	//fmt.Println(" ==========================")
+	//Exercise12()
+
+	echoLine()
 }
