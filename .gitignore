@@ -23,3 +23,4 @@ go.work
 # intellicode
 .vscode/
 .idea/
+cmd/chapter-1/bin/

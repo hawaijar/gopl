@@ -48,10 +48,41 @@ func echoLine() {
 	}
 }
 
+// Finding duplicate lines
+func dup2() {
+	counts := make(map[string]int)
+	args := os.Args
+	// read from STDIN
+	if len(args) == 1 {
+		countLines(os.Stdin, counts)
+	} else { // read from files
+		for _, fileName := range args[1:] {
+			file, err := os.Open(fileName)
+			if err != nil {
+				fmt.Printf("Error in opening %s\n", fileName)
+				continue
+			}
+			countLines(file, counts)
+		}
+	}
+}
+
+func countLines(file *os.File, counts map[string]int) {
+	input := bufio.NewScanner(file)
+	for input.Scan() {
+		line := input.Text()
+		counts[line] += 1
+	}
+
+	for line, count := range counts {
+		fmt.Printf("%s: %d \n", line, count)
+	}
+}
+
 func main() {
 	//Exercise11()
 	//fmt.Println(" ==========================")
 	//Exercise12()
-
-	echoLine()
+	//echoLine()
+	dup2()
 }
