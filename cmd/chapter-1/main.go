@@ -66,7 +66,6 @@ func dup2() {
 		}
 	}
 }
-
 func countLines(file *os.File, counts map[string]int) {
 	input := bufio.NewScanner(file)
 	for input.Scan() {
@@ -79,10 +78,47 @@ func countLines(file *os.File, counts map[string]int) {
 	}
 }
 
+func countLinesFromFile(fileName string, counts map[string]int) {
+	fileContent, err := os.ReadFile(fileName)
+	if err != nil {
+		fmt.Printf("Error in reading %s\n", fileName)
+		return
+	}
+	for _, line := range strings.Split(string(fileContent), "\n") {
+		if len(line) > 0 {
+			counts[line] += 1
+		}
+	}
+
+	fmt.Println("==== Duplicate count using ReadFile ====")
+
+	fmt.Printf("Reading the file: %s\n", fileName)
+	for file, count := range counts {
+		fmt.Printf("%s: %d\n", file, count)
+	}
+}
+
+// dup3 Count duplicate lines using os.ReadFile()
+func dup3() {
+	counts := make(map[string]int)
+	if len(os.Args) == 1 {
+		countLines(os.Stdin, counts)
+	} else {
+		args := os.Args[1:]
+		for _, fileName := range args {
+			countLinesFromFile(fileName, counts)
+			fmt.Println()
+			// flush the map
+			counts = make(map[string]int)
+		}
+	}
+}
+
 func main() {
 	//Exercise11()
 	//fmt.Println(" ==========================")
 	//Exercise12()
 	//echoLine()
-	dup2()
+	//dup2()
+	dup3()
 }
