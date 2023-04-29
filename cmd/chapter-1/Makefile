@@ -5,4 +5,4 @@ run:
 	go run main.go
 
 clean:
-	rm -f main
+	rm -rf bin
